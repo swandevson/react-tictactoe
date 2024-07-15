@@ -9,11 +9,16 @@ function Square({ value, onSquareClick }) {
 }
 
 export default function Board() {
+  const [xIsNext, setXIsNext] = useState(true); // "X" 먼저 시작
   const [squareValues, setSquareValues] = useState(Array(9).fill(null));
 
   function handleClick(i) {
     const nextSquares = squareValues.slice();
-    nextSquares[i] = "X";
+    if (nextSquares[i]) {
+      return;
+    }
+    nextSquares[i] = xIsNext ? "X" : "O";
+    setXIsNext(!xIsNext);
     setSquareValues(nextSquares);
   }
 
