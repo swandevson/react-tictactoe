@@ -48,7 +48,7 @@ function Board({ xIsNext, squareValues, onPlay }) {
   );
 }
 
-function History({ history }) {
+function History({ history, onJumpTo }) {
   function jumpTo(nextMove) {}
 
   const moves = history.map((square, move) => {
@@ -61,7 +61,7 @@ function History({ history }) {
 
     return (
       <li key={move}>
-        <button onClick={() => jumpTo(move)}>{description}</button>
+        <button onClick={() => onJumpTo(move)}>{description}</button>
       </li>
     );
   });
@@ -85,25 +85,10 @@ export default function Game() {
   }
 
   // N번째 이동으로 되돌아 갈 때
-  function jumpTo(nextMove) {
+  function handleJumpTo(nextMove) {
     setCurrentMove(nextMove);
     setXIsNext(nextMove % 2 == 0);
   }
-
-  const moves = history.map((square, move) => {
-    let description;
-    if (move > 0) {
-      description = `Go To Move #${move}`;
-    } else {
-      description = `Go To Game Start`;
-    }
-
-    return (
-      <li key={move}>
-        <button onClick={() => jumpTo(move)}>{description}</button>
-      </li>
-    );
-  });
 
   return (
     <div className="game">
@@ -115,7 +100,7 @@ export default function Game() {
         />
       </div>
       <div className="game-info">
-        <ol>{moves}</ol>
+        <History history={history} onJumpTo={handleJumpTo} />
       </div>
     </div>
   );
