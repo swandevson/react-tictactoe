@@ -26,24 +26,24 @@ function Board({ xIsNext, squareValues, onPlay }) {
     onPlay(nextSquares);
   }
 
+  const renderSqaure = (index) => (
+    <Square
+      value={squareValues[index]}
+      onSquareClick={() => handleClick(index)}
+    />
+  );
+
   return (
     <>
       <div className="status">{status}</div>
-      <div className="board-row">
-        <Square value={squareValues[0]} onSquareClick={() => handleClick(0)} />
-        <Square value={squareValues[1]} onSquareClick={() => handleClick(1)} />
-        <Square value={squareValues[2]} onSquareClick={() => handleClick(2)} />
-      </div>
-      <div className="board-row">
-        <Square value={squareValues[3]} onSquareClick={() => handleClick(3)} />
-        <Square value={squareValues[4]} onSquareClick={() => handleClick(4)} />
-        <Square value={squareValues[5]} onSquareClick={() => handleClick(5)} />
-      </div>
-      <div className="board-row">
-        <Square value={squareValues[6]} onSquareClick={() => handleClick(6)} />
-        <Square value={squareValues[7]} onSquareClick={() => handleClick(7)} />
-        <Square value={squareValues[8]} onSquareClick={() => handleClick(8)} />
-      </div>
+
+      {[0, 3, 6].map((rowStart) => (
+        <div key={rowStart / 3} className="board-row">
+          {renderSqaure(rowStart)}
+          {renderSqaure(rowStart + 1)}
+          {renderSqaure(rowStart + 2)}
+        </div>
+      ))}
     </>
   );
 }
