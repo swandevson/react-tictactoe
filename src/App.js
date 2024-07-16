@@ -12,11 +12,19 @@ export default function Board() {
   const [xIsNext, setXIsNext] = useState(true); // "X" 먼저 시작
   const [squareValues, setSquareValues] = useState(Array(9).fill(null));
 
+  const winner = calculateWinner(squareValues);
+  let status;
+  if (winner) {
+    status = `Winner: ${winner}`;
+  } else {
+    status = `Next player: ${xIsNext ? "X" : "O"}`;
+  }
+
   function handleClick(i) {
-    const nextSquares = squareValues.slice();
-    if (nextSquares[i] || calculateWinner(nextSquares)) {
+    if (squareValues[i] || winner) {
       return;
     }
+    const nextSquares = squareValues.slice();
     nextSquares[i] = xIsNext ? "X" : "O";
     setXIsNext(!xIsNext);
     setSquareValues(nextSquares);
@@ -24,6 +32,7 @@ export default function Board() {
 
   return (
     <>
+      <div className="status">{status}</div>
       <div className="board-row">
         <Square value={squareValues[0]} onSquareClick={() => handleClick(0)} />
         <Square value={squareValues[1]} onSquareClick={() => handleClick(1)} />
